@@ -25,13 +25,18 @@ server_socket.listen(10)
 print(f"Server listening on {host}:{port}")
 
 server_running = True
-connections = []
+clients = []
+servers = []
+
+
 # Function to handle client connections
 def handle_client(client_socket, client_address):
     print(f"Accepted connection from {client_address}")
-    connections.append(client_address)
+    global clients
+    clients.append(client_address)
 
-    while True:
+    global server_running
+    while server_running:
         # Receive data from the client
         data = client_socket.recv(1024)
         if not data:
@@ -45,13 +50,17 @@ def handle_client(client_socket, client_address):
 
 def setup_server():
     # Main server loop
+    global server_running
     while server_running:
         # Accept incoming connections
-        client_socket, client_address = server_socket.accept()
+        try:
+            client_socket, client_address = server_socket.accept()
 
-        # Create a new thread to handle the client
-        client_handler = threading.Thread(target=handle_client, args=(client_socket, client_address))
-        client_handler.start()
+            # Create a new thread to handle the client
+            client_handler = threading.Thread(target=handle_client, args=(client_socket, client_address))
+            client_handler.start()
+        except OSError:
+            print("All incoming connections terminated!")
 
 server_handler = threading.Thread(target=setup_server)
 server_handler.start()
