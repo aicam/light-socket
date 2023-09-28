@@ -84,6 +84,9 @@ def send_message(id, msg):
     global servers
     servers[id]['socket_obj'].send(msg.encode('utf-8'))
 
+def terminate(id):
+    servers[id]['socket_obj'].close()
+
 def terminate_all_clients():
     global clients
     for client in clients:
@@ -95,10 +98,17 @@ server_handler.start()
 
 while True:
     command = input("Command: ")
+
+    if command.__contains__("terminate"):
+        _, id = command.split(' ')
+        print(f"Now terminating {id}")
+        terminate(int(id))
+
     if command.__contains__("connect"):
         _, dst, port = command.split(' ')
         print(f"Trying to connect to {dst}:{port}")
         connect_server(dst, int(port))
+
     if command.__contains__("send"):
         _, id, msg = command.split(' ')
         print(f"Sending message to id {id}")
