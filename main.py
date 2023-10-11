@@ -92,6 +92,51 @@ def terminate_all_clients():
     for client in clients:
         client.close()
 
+def myip():
+    hostname = socket.gethostname()
+    IPAddr = socket.gethostbyname(hostname)
+    print(IPAddr)
+
+def myport():
+    print(port)
+
+def help():
+    print()
+    print("help")
+    print(" -Display information about the available user interface options or command manual.")
+    
+    print()
+    print("myip")
+    print(" -Display the IP address of this process")
+
+    print()
+    print("myport")
+    print(" -Display the port on which this process is listening for incoming connections.")
+
+    print()
+    print("connect <destination> <port no>")
+    print(" -Establishes a new TCP connection to the specified <destination> at specified <port no>")
+    print("  -<destination>: IP Address")
+    print("  -<port no>: Port Number")
+
+    print()
+    print("list")
+    print(" -Display a numbered list of all conections this process is part of")
+
+    print()
+    print("terminate <connection id>")
+    print(" -Terminates connection using <connection id>")
+    print("  -<connection id>: id of the connection found in 'list' command")
+
+    print()
+    print("send <connection id> <message> ")
+    print(" -Send <message> to the <connection id>")
+    print("  -<connection id>: id of the connection found in 'list' command")
+    print("  -<message>: String message to send")
+    print("   -Up-to 100 characters long")
+
+    print()
+
 
 server_handler = threading.Thread(target=setup_server)
 server_handler.start()
@@ -113,6 +158,7 @@ while True:
         _, id, msg = command.split(' ')
         print(f"Sending message to id {id}")
         send_message(int(id), msg)
+
     if command == "list":
         list_servers()
 
@@ -122,3 +168,12 @@ while True:
         server_socket.close()
         server_handler.join()
         break
+    
+    if command == "help":
+        help()
+    
+    if command == "myip":
+        myip()
+    
+    if command == "myport":
+        myport()
