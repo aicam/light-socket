@@ -145,19 +145,47 @@ while True:
     command = input("Command: ")
 
     if command.__contains__("terminate"):
-        _, id = command.split(' ')
-        print(f"Now terminating {id}")
-        terminate(int(id))
+        try:
+            _, id = command.split(' ')
+            print(f"Now terminating {id}")
+            terminate(int(id))
+
+        except ValueError as e:
+            print(f"Error: {e}")
+            print("Command: terminate <connection id>")
+            print()
+        except Exception as e:
+            print(f"An exception of type {type(e).__name__} occurred: {e}")
+            print()
 
     if command.__contains__("connect"):
-        _, dst, port = command.split(' ')
-        print(f"Trying to connect to {dst}:{port}")
-        connect_server(dst, int(port))
+        try:
+            _, dst, port = command.split(' ')
+            print(f"Trying to connect to {dst}:{port}")
+            connect_server(dst, int(port))
+
+        except ValueError as e:
+            print(f"Error: {e}")
+            print("Command: connect <destination> <port no>")
+            print()
+        except Exception as e:
+            print(f"An exception of type {type(e).__name__} occurred: {e}")
+            print()
 
     if command.__contains__("send"):
-        _, id, msg = command.split(' ')
-        print(f"Sending message to id {id}")
-        send_message(int(id), msg)
+        try:
+            _, id, msg = command.split(' ')
+            print(f"Sending message to id {id}")
+            send_message(int(id), msg)
+        
+        except ValueError as e:
+            print(f"Error: {e}")
+            print("Command: send <connection id> <message> ")
+            print()
+        except Exception as e:
+            print(f"An exception of type {type(e).__name__} occurred: {e}")
+            print()
+
 
     if command == "list":
         list_servers()
