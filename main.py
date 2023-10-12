@@ -95,10 +95,11 @@ def terminate_all_clients():
 def myip():
     hostname = socket.gethostname()
     IPAddr = socket.gethostbyname(hostname)
-    print(IPAddr)
+    print(f"IP Address: {IPAddr}")
 
 def myport():
-    print(port)
+    local_address, local_port = server_socket.getsockname()
+    print(f"Port: {local_port}")
 
 def help():
     print()
