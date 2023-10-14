@@ -77,6 +77,8 @@ def connect_server(address, port):
 
 def list_servers():
     global servers
+    print("The following is the list of servers the process is connected to")
+    print("id: server address:port number")
     for i, server in enumerate(servers):
         print(f"{i}: {server['address']}:{server['port']}")
 
